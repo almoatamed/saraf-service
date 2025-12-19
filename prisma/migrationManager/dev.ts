@@ -11,10 +11,7 @@ const MIGRATIONS_DIR = path.join(PRISMA_ROOT, "migrations");
 const schemaPath = path.join(PRISMA_ROOT, "schema.prisma");
 
 // run prisma migrate dev --create-only to create the migration folder
-export function createMigration(
-    schemaPath: string,
-    dbUrl: string
-): null | string {
+export function createMigration(schemaPath: string, dbUrl: string): null | string {
     const oldContent = fs.readdirSync(MIGRATIONS_DIR);
     const cmd = `DATABASE_URL="${dbUrl}"  bunx prisma migrate dev --create-only --schema="${schemaPath}"`;
     execSync(cmd, { stdio: "inherit" });
@@ -28,8 +25,8 @@ export function createMigration(
             const migrationFilePath = path.join(fullPath, "migration.sql");
             const content = fs.readFileSync(migrationFilePath, "utf-8");
             if (content.startsWith("-- This is an empty migration.")) {
-                fs.rmSync(fullPath ,{
-                    recursive: true, 
+                fs.rmSync(fullPath, {
+                    recursive: true,
                     force: true,
                 });
             }
@@ -64,13 +61,9 @@ export function createMigration(
 }
 
 // append an idempotent SQL statement to the generated migration.sql
-export function appendVersionUpsertToMigration(
-    migrationFolder: string,
-    version: number
-) {
+export function appendVersionUpsertToMigration(migrationFolder: string, version: number) {
     const migrationSqlPath = path.join(migrationFolder, "migration.sql");
-    if (!fs.existsSync(migrationSqlPath))
-        throw new Error("migration.sql not found: " + migrationSqlPath);
+    if (!fs.existsSync(migrationSqlPath)) throw new Error("migration.sql not found: " + migrationSqlPath);
 
     const upsertSql = `
 INSERT INTO SchemaVersion (id, version)
@@ -96,17 +89,11 @@ async function runDev() {
     appendVersionUpsertToMigration(migrationFolder, REQUIRED_VERSION);
 
     // now, for dev/test you can deploy to the tenant DB to verify:
-    execSync(
-        `DATABASE_URL=${dbUrl} bunx prisma migrate deploy --schema="${schemaPath}"`,
-        {
-            stdio: "inherit",
-        }
-    );
+    execSync(`DATABASE_URL=${dbUrl} bunx prisma migrate deploy --schema="${schemaPath}"`, {
+        stdio: "inherit",
+    });
 
-    console.log(
-        "Migration created, SQL patched with version upsert, and deployed for tenant:",
-        dbName
-    );
+    console.log("Migration created, SQL patched with version upsert, and deployed for tenant:", dbName);
 }
 
 if (require.main === module) {

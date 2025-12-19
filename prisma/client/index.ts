@@ -19,19 +19,13 @@ await client.$connect();
 const versionInfo = await client.schemaVersion.findFirstOrThrow();
 
 if (versionInfo.version != REQUIRED_VERSION) {
-    console.error(
-        "Required Schema version by the binary is",
-        REQUIRED_VERSION,
-        "and the database schema version is",
-        versionInfo.version
-    );
+    console.error("Required Schema version by the binary is", REQUIRED_VERSION, "and the database schema version is", versionInfo.version);
 
     process.exit(1);
 }
 
-export const getSchemaVersion = async ()=>{
+export const getSchemaVersion = async () => {
     return (await client.schemaVersion.findFirstOrThrow()).version;
-}
+};
 
-
-export {client}
+export { client };

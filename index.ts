@@ -14,5 +14,5 @@ app.use(cors());
 
 app.use("/api", router);
 
-app.listen(Number(process.env.PORT))
-console.log("Started Server on port", process.env.PORT)
+app.listen(Number(process.env.PORT));
+console.log("Started Server on port", process.env.PORT);
