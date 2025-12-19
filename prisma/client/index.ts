@@ -29,6 +29,9 @@ if (versionInfo.version != REQUIRED_VERSION) {
     process.exit(1);
 }
 
+export const getSchemaVersion = async ()=>{
+    return (await client.schemaVersion.findFirstOrThrow()).version;
+}
 
 
 export {client}
