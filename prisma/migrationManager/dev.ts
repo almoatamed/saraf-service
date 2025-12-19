@@ -2,13 +2,13 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import { REQUIRED_VERSION } from "./requiredVersion";
+import { REQUIRED_VERSION } from "../requiredVersion";
 
 const currentDir = import.meta.dirname;
 
-const PRISMA_ROOT = path.join(currentDir);
+const PRISMA_ROOT = path.join(currentDir, "../");
 const MIGRATIONS_DIR = path.join(PRISMA_ROOT, "migrations");
-const schemaPath = path.join(import.meta.dirname, "./schema.prisma");
+const schemaPath = path.join(PRISMA_ROOT, "schema.prisma");
 
 // run prisma migrate dev --create-only to create the migration folder
 export function createMigration(

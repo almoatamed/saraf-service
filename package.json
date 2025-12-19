@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "migrate-dev": "bun ./prisma/migrationManagerDev.ts"
+    "migrate-dev": "bun ./prisma/migrationManager/dev.ts", 
+    "migrate-generate": "prisma generate"
   },
   "devDependencies": {
     "@types/bun": "latest"
