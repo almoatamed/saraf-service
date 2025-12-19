@@ -1,0 +1,25 @@
+{
+  "name": "currencyexchangemanagerservice",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "migrate-dev": "bun ./prisma/migrationManagerDev.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/adapter-mariadb": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "@types/node": "^25.0.3",
+    "dotenv": "^17.2.3",
+    "prisma": "^7.2.0"
+  }, 
+  "prettier": {
+    "tabWidth": 4
+  }
+}
