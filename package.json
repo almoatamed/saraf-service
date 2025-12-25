@@ -6,7 +6,8 @@
     "scripts": {
         "migrate-dev": "bun ./prisma/migrationManager/dev.ts",
         "migrate-generate": "prisma generate",
-        "dev": "bun --watch index.ts"
+        "dev": "bun --watch index.ts", 
+        "build": "bun build index.ts --target=bun --outdir=dist"
     },
     "devDependencies": {
         "@types/bun": "latest"

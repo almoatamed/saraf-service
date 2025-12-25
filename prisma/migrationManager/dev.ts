@@ -1,4 +1,4 @@
-// scripts/create_and_pump_migration.js
+
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
@@ -10,12 +10,11 @@ const PRISMA_ROOT = path.join(currentDir, "../");
 const MIGRATIONS_DIR = path.join(PRISMA_ROOT, "migrations");
 const schemaPath = path.join(PRISMA_ROOT, "schema.prisma");
 
-// run prisma migrate dev --create-only to create the migration folder
 export function createMigration(schemaPath: string, dbUrl: string): null | string {
     const oldContent = fs.readdirSync(MIGRATIONS_DIR);
     const cmd = `DATABASE_URL="${dbUrl}"  bunx prisma migrate dev --create-only --schema="${schemaPath}"`;
     execSync(cmd, { stdio: "inherit" });
-    // find the most recent folder in prisma/migrations
+    
     const migrationDirectoryContent = fs.readdirSync(MIGRATIONS_DIR);
     for (const item of migrationDirectoryContent) {
         const fullPath = path.join(MIGRATIONS_DIR, item);
@@ -60,7 +59,7 @@ export function createMigration(schemaPath: string, dbUrl: string): null | strin
     return path.join(MIGRATIONS_DIR, mapped[0]?.name!);
 }
 
-// append an idempotent SQL statement to the generated migration.sql
+
 export function appendVersionUpsertToMigration(migrationFolder: string, version: number) {
     const migrationSqlPath = path.join(migrationFolder, "migration.sql");
     if (!fs.existsSync(migrationSqlPath)) throw new Error("migration.sql not found: " + migrationSqlPath);
@@ -74,7 +73,6 @@ ON DUPLICATE KEY UPDATE version = VALUES(version);
     fs.appendFileSync(migrationSqlPath, "\n" + upsertSql);
 }
 
-// Example usage (dev flow)
 async function runDev() {
     const dbName = "saraf_dev_tenant";
     const username = "admin";
@@ -87,8 +85,7 @@ async function runDev() {
         process.exit(0);
     }
     appendVersionUpsertToMigration(migrationFolder, REQUIRED_VERSION);
-
-    // now, for dev/test you can deploy to the tenant DB to verify:
+    
     execSync(`DATABASE_URL=${dbUrl} bunx prisma migrate deploy --schema="${schemaPath}"`, {
         stdio: "inherit",
     });

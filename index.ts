@@ -38,8 +38,6 @@ export const run = async () => {
     return app;
 };
 
-if (require.main === module) {
-    const app = await run();
-    app.listen(Number(process.env.PORT));
-    console.log("Started Tenant Server on port", process.env.PORT);
-}
+const app = await run();
+app.listen(Number(process.env.PORT));
+console.log("Started Tenant Server on port", process.env.PORT);
