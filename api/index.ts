@@ -1,11 +1,11 @@
 import express from "express";
 import { getSchemaVersion } from "../prisma/client";
 import { intercomRouter } from "./intercom";
+import { appRouter } from "./app";
 
 const router = express.Router();
 
 router.all("/status", async (_, response) => {
-    console.log("hi mom");
     response.json({
         msg: "OK",
         schemaVersion: await getSchemaVersion(),
@@ -14,5 +14,5 @@ router.all("/status", async (_, response) => {
 });
 
 router.use("/intercom", intercomRouter);
-
+router.use("/app", appRouter);
 export { router };

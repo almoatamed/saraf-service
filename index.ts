@@ -16,6 +16,7 @@ export const run = async () => {
     app.use("/api", router);
 
     app.use((error: any, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
+        console.error(error);
         if (response.headersSent) {
             return;
         }
